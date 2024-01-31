@@ -1,6 +1,8 @@
 import React from 'react'
 import { AdminLinks, student } from "../constants/sideConstants";
 import { useState,useRef } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
 // import { AdminLinks, student } from "../constants/sideConstants";
 import {
     Card,
@@ -40,13 +42,14 @@ import
  { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } 
  from 'recharts';
 import Sidebar from './sidebar';
+import { selectUser } from '../redux/useSlice';
 // import { student } from '../constants/sideConstants';    
 
 function AdminDashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const initialRef = useRef();
     const finalRef = useRef();
-    
+    const user=useSelector(selectUser)
     const onOpen = () => setIsOpen(true);
     const onClose = () => setIsOpen(false);
     const data = [
@@ -100,7 +103,7 @@ function AdminDashboard() {
     <Sidebar links={AdminLinks} />
     <main className='main-container ml-64  bg-gray-900 h-screen'>
         <div className='main-title'>
-            <h3>DASHBOARD</h3>
+            <h3>Welcome {user.email}</h3>
         </div>
 
         <div className='flex justify-around mt-20'>

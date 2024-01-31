@@ -1,20 +1,25 @@
 import React from "react";
 import Sidebar from "./sidebar";
 import { AdminLinks } from "../constants/sideConstants";
-import { useState } from 'react';
-import {
-  Card,
-  Image,
-  Stack,
-  CardBody,
-  Heading,
-  Text,
-  CardFooter,
-  Button,
-  SimpleGrid
-} from "@chakra-ui/react";
-
+import { useState,useRef } from "react";
+import { Card,Image,Stack,CardBody,Heading,Text,CardFooter,Button, SimpleGrid, Avatar,Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalFooter, } from "@chakra-ui/react";
 function AdminViewcourses() {
+   
+  const [isOpen, setIsOpen] = useState(false);
+const initialRef = useRef();
+const finalRef = useRef();
+
+const onOpen = () => setIsOpen(true);
+const onClose = () => setIsOpen(false);
   const [enquiries, setEnquiries] = useState([
     {enquiryId:1,course:'java',name:'java',desc:'View a summary of all your customers over the last month.',imageUrl: 'data:image/jpeg;base64,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',},
     {enquiryId:2,course:'Node',name:'sabari',desc:'View a summary of all your customers over the last month.',imageUrl: 'data:image/png;base64,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',},
@@ -70,7 +75,7 @@ function AdminViewcourses() {
                   </CardBody>
 
                   <CardFooter>
-                    <Button variant="solid" colorScheme="blue">
+                    <Button onClick={onOpen}variant="solid" colorScheme="blue">
                       Edit
                     </Button>
                     <Button
@@ -81,6 +86,42 @@ function AdminViewcourses() {
                     >
                       Delete
                     </Button>
+                    <Modal
+      initialFocusRef={initialRef}
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Reply</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormControl>
+            <FormLabel>coursename</FormLabel>
+            <Input ref={initialRef} placeholder='First name' />
+            <FormLabel>content</FormLabel>
+            <Input ref={initialRef} placeholder='First name' />
+          </FormControl>
+
+          {/* <FormControl mt={4}>
+            <FormLabel>Last name</FormLabel>
+            <Input placeholder='Last name' />
+          </FormControl>
+          <FormControl mt={4}>
+            <FormLabel>Email</FormLabel>
+            <Input placeholder='Last name' />
+          </FormControl> */}
+        </ModalBody>
+
+        <ModalFooter>
+          <Button onClick={onClose} colorScheme='blue' mr={3}>
+            send
+          </Button>
+          <Button onClick={onClose}>Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
                   </CardFooter>
                 </Stack>
               </Card>

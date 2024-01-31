@@ -1,15 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { addToken, login } from '../redux/useSlice';
 
 function Login() {
     const navigate=useNavigate()
     // const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
 
     const hello = () => {
         // Check if the entered email is admin@gmail.com
         if (email === "admin@gmail.com") {
             // Redirect to the admin page
+            dispatch(login({ email: email }));
             navigate('/ad');
         } 
         if (email === "student@gmail.com") {
